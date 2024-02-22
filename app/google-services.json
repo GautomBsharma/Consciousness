@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "394402064424",
+    "project_id": "consciousness-44c3c",
+    "storage_bucket": "consciousness-44c3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394402064424:android:82f52ff9716bde91b8ed1d",
+        "android_client_info": {
+          "package_name": "com.example.theconsciousness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394402064424-308f87e30eqq7v3fpin398nonfbvpjne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1nkNRUsKwMinHaoSZsDMgpmjjJuVn9hc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394402064424-308f87e30eqq7v3fpin398nonfbvpjne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

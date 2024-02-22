@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/logocon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TheConsciousness"
+        tools:targetApi="31">
+        <activity
+            android:name=".SearchScholarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScholarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChangeRoomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddPostScholarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReplayScholarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EventShowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FevoriteActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddEventActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddBookActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ReplayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddBlogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">The Consciousness</string>
+
+    <string-array name="status">
+        <item> Devotee </item>
+        <item> Scholar</item>
+    </string-array>
+    <string-array name="event_title">
+        <item> Ekadashi </item>
+        <item> Marriage Date</item>
+        <item> Puja</item>
+        <item> Grohon</item>
+        <item> Purnima</item>
+        <item> Others</item>
+    </string-array>
+
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_scolers">ScolersActivity</string>
+    <string name="write_religious_blog_or_religious_books_sluka_with_explanation">write religious blog or religious books sluka with explanation</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
