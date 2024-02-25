@@ -9,6 +9,8 @@ data class User(
        var UserStatus:String="",
        var UserEmail:String="",
        var UserInstitute:String="",
-       var UserDistrict:String=""
+       var UserDistrict:String="",
+       var UserToken:String=""
+
 
 )
