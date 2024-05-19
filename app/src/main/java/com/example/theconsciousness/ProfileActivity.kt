@@ -1,17 +1,10 @@
-package com.example.theconsciousness.Fragments
-
+package com.example.theconsciousness
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.theconsciousness.LoginActivity
 import com.example.theconsciousness.Models.User
-import com.example.theconsciousness.R
-
-import com.example.theconsciousness.databinding.FragmentProfileBinding
+import com.example.theconsciousness.databinding.ActivityProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,30 +12,29 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 
-
-class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding
+class ProfileActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityProfileBinding
     private lateinit var auth: FirebaseAuth
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentProfileBinding.inflate(layoutInflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
         binding.logoutCar.setOnClickListener {
             auth.signOut()
-            val intent = Intent(requireContext(), LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
+        binding.editPro.setOnClickListener {
+            startActivity(Intent(this,EditActivity::class.java))
+        }
         getprofileData()
-        return binding.root
     }
 
     private fun getprofileData() {
         val reff = FirebaseDatabase.getInstance().reference.child("Users")
-        reff.addValueEventListener(object : ValueEventListener{
+        reff.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
                     val data = snapshot.getValue(User::class.java)

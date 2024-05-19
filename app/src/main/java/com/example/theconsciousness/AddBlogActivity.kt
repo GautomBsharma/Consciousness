@@ -38,11 +38,7 @@ class AddBlogActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.btnUp.setOnClickListener {
-
                  validateData2()
-
-
-
         }
         binding.piokImage.setOnClickListener {
 

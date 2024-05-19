@@ -10,26 +10,21 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.OccasionFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardmy"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout3"
+            android:id="@+id/cardmy"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/blog_back">
+            android:layout_height="150dp"
+            android:background="@drawable/blog_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <EditText
                 android:id="@+id/searchGro"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/search_back"
                 android:drawableStart="@drawable/round_search_24"
@@ -37,6 +32,7 @@
                 android:inputType="textFilter"
                 android:paddingStart="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:queryHint="Search Groups" />
@@ -58,7 +54,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView6"
@@ -164,7 +160,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/guru"
+                android:src="@drawable/templecon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -173,7 +169,7 @@
                 android:id="@+id/tvnot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Scholar"
+                android:text="Temple"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold"

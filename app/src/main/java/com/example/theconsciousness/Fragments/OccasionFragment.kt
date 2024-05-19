@@ -42,7 +42,7 @@ class OccasionFragment : Fragment() {
             startActivity(Intent(requireContext(), AddBookActivity::class.java))
         }
         binding.guruCard.setOnClickListener {
-            startActivity(Intent(requireContext(),ScholarActivity::class.java))
+            startActivity(Intent(requireContext(),TempleActivity::class.java))
         }
 
         binding.favconsta.setOnClickListener {

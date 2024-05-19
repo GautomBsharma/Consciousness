@@ -60,12 +60,13 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun saveeventdata() {
         val db = FirebaseDatabase.getInstance().reference.child("Events").child(selectedItem.toString())
-        val timestamp = System.currentTimeMillis().toString()
+        val postId= db.push().key.toString()
         val myMap = HashMap<String,Any>()
+
         myMap["eName"]= binding.eventName.text.toString()
-        myMap["timestamp"] = timestamp
+        myMap["eventId"] = postId
         myMap["eDescription"] = binding.evDescription.text.toString()
-        db.child(timestamp).setValue(myMap).addOnSuccessListener {
+        db.child(postId).setValue(myMap).addOnSuccessListener {
             Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show()
         }
             .addOnFailureListener {
@@ -90,8 +91,10 @@ class AddEventActivity : AppCompatActivity() {
     private fun savedata() {
         val db = FirebaseDatabase.getInstance().reference.child("Quote")
         val myMap = HashMap<String, Any>()
+        val keyId = db.push().key
         val timestamp = System.currentTimeMillis().toString()
         myMap["quote"] = binding.inquote.text.toString()
+        myMap["QuoteId"] = keyId.toString()
         myMap["author"] = binding.inquoteowner.text.toString()
         myMap["timestamp"] = timestamp
         db.child(timestamp).setValue(myMap)

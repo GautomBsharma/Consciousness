@@ -13,15 +13,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(HomeFragment())
+        replaceFragment(OccasionFragment())
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.home -> replaceFragment(HomeFragment())
-                R.id.occasion -> replaceFragment(OccasionFragment())
+                //home id carry Occasion Fragment
+                //and occasion id carry Home
+                R.id.occasion -> replaceFragment(HomeFragment())
+                R.id.home -> replaceFragment(OccasionFragment())
+
                 R.id.event -> replaceFragment(EventsFragment())
                 R.id.counter -> replaceFragment(CounterFragment())
-                R.id.profile -> replaceFragment(ProfileFragment())
                 else ->{
 
                 }

@@ -13,6 +13,8 @@ import com.example.theconsciousness.Adapters.MyPostAdapter
 import com.example.theconsciousness.AddBlogActivity
 import com.example.theconsciousness.Models.PrayerPost
 import com.example.theconsciousness.Models.User
+import com.example.theconsciousness.ProfileActivity
+import com.example.theconsciousness.R
 import com.example.theconsciousness.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -42,8 +44,11 @@ class HomeFragment : Fragment() {
         binding.addBlog.setOnClickListener {
             startActivity(Intent(requireContext(),AddBlogActivity::class.java))
         }
-
+        binding.userpProfile.setOnClickListener {
+            startActivity(Intent(requireContext(),ProfileActivity::class.java))
+        }
         getprofileImage()
+
         retriveBlog()
         return binding.root
     }
@@ -61,7 +66,13 @@ class HomeFragment : Fragment() {
                 if (snapshot.exists()){
                     val rent = snapshot.getValue(User::class.java)
                     if (rent != null) {
-                        Glide.with(requireContext()).load(rent.UserImageUrl).into(binding.userpProfile)
+                        if (rent.UserImageUrl.isNotEmpty()){
+                            Glide.with(requireContext()).load(rent.UserImageUrl).into(binding.userpProfile)
+                        }
+                        else{
+                            binding.userpProfile.setImageResource(R.drawable.my_profile)
+                        }
+
                     }
                 }
                 }

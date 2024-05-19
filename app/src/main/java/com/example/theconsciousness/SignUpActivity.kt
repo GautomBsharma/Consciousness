@@ -75,6 +75,7 @@ class SignUpActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful)
                 {
+
                     getToken()
                 } else
                 {
