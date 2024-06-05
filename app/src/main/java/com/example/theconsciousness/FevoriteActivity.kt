@@ -35,7 +35,7 @@ class FevoriteActivity : AppCompatActivity() {
                     blogId?.let { blogIds.add(it) }
                 }
                 if (blogIds.isEmpty()){
-                    binding.textView20.visibility = View.VISIBLE
+                    binding.tvIsSave.visibility = View.VISIBLE
                 }
                 else{
                     fetchBlogDetails(blogIds)
@@ -54,47 +54,27 @@ class FevoriteActivity : AppCompatActivity() {
         val blogsRef = FirebaseDatabase.getInstance().reference.child("Blogs")
         val fetchedBlogs = mutableListOf<Blog>()
 
-        for (blogId in blogIds) {
-            //val blogRef = blogsRef.child(blogId)
-            blogsRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(blogSnapshot: DataSnapshot) {
-
-                    for (snap in blogSnapshot.children){
-                        val data = snap.getValue(Blog::class.java)
-                        if (blogId == data?.blogId){
-                            fetchedBlogs.add(data)
-                        }
+        blogsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(blogSnapshot: DataSnapshot) {
+                for (blogId in blogIds) {
+                    val blogSnapshot = blogSnapshot.child(blogId)
+                    val data = blogSnapshot.getValue(Blog::class.java)
+                    data?.let {
+                        fetchedBlogs.add(it)
                     }
-                    /*val dat = blogSnapshot.getValue(Blog::class.java)
-
-                    val blogDetails: Map<String, Any>? = blogSnapshot.value as? Map<String, Any>
-                    // Extract and create Blog object
-                    blogDetails?.let {
-                        val blog = Blog(
-                            blogId,
-                            it["UserId"].toString(),
-                            it["title"].toString(),
-                            it["blog"].toString(),
-                            it["refet"].toString(),
-                            it["uplaodTime"] as Long // Adjust this based on your data structure
-                        )
-                        fetchedBlogs.add(blog)
-
-                        if (fetchedBlogs.size == blogIds.size) {
-                            val adapter = SaveAdapter(this@FevoriteActivity, fetchedBlogs)
-                            binding.recyclerViewSave.adapter = adapter
-                            binding.recyclerViewSave.layoutManager = LinearLayoutManager(this@FevoriteActivity)
-                        }
-                    }*/
+                }
+                if (fetchedBlogs.isEmpty()) {
+                    binding.tvIsSave.visibility = View.VISIBLE
+                } else {
                     val adapter = SaveAdapter(this@FevoriteActivity, fetchedBlogs)
                     binding.recyclerViewSave.adapter = adapter
                     binding.recyclerViewSave.layoutManager = LinearLayoutManager(this@FevoriteActivity)
                 }
-                override fun onCancelled(error: DatabaseError) {
-                    // Handle error
-                }
-            })
-        }
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error
+            }
+        })
     }
 }

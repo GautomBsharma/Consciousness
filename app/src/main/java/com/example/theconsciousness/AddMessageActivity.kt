@@ -97,7 +97,7 @@ class AddMessageActivity : AppCompatActivity() {
 
     private fun saveWithNotifi() {
 
-        val refff= FirebaseDatabase.getInstance().reference.child("ScholarPostRoom").child(userId!!)
+        val refff= FirebaseDatabase.getInstance().reference.child("ScholarPostRoom").child(userId)
         val MessageMap = HashMap<String,Any>()
         val postId= refff.push().key
         MessageMap["scholarpost"] = binding.edMessage.toString()

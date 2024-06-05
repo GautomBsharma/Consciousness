@@ -3,7 +3,7 @@
     <style name="Theme.TheConsciousness" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimaryVariant">@color/mainBack</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -21,7 +21,7 @@
     </style>
     <style name="roundImageView" parent="">
         <item name="cornerFamily" > rounded</item>
-        <item name="cornerSize" >20dp</item>
+        <item name="cornerSize" >10dp</item>
         <item name="color"> @color/white</item>
     </style>
     <style name="roundImageViewItem" parent="">
@@ -30,6 +30,10 @@
         <item name="color"> @color/white</item>
     </style>
 
+    <style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false </item>
+        <item name="android:progressDrawable">@drawable/circle</item>
+    </style>
 
     <style name="Theme.TheConsciousness.NoActionBar">
         <item name="windowActionBar">false</item>

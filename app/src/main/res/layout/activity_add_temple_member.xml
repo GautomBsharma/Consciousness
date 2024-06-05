@@ -37,7 +37,7 @@ android:layout_height="match_parent"
             android:id="@+id/memberName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,7 +58,7 @@ android:layout_height="match_parent"
             android:id="@+id/templeMemberAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +79,7 @@ android:layout_height="match_parent"
             android:id="@+id/membercontent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,6 +121,21 @@ android:layout_height="match_parent"
         android:src="@drawable/baseline_image_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnUp" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Please Enter Member Image"
+        android:textColor="@color/red"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/emailLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/postimage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

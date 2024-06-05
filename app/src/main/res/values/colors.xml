@@ -18,4 +18,16 @@
     <color name="gray2">#EAEDED</color>
     <color name="blogb">#b9f2ff</color>
     <color name="goback">#F18653</color>
+    <color name="red">#FF0000</color>
+    <color name="semi_transparent_gray">#80000000</color>
+    <color name="mainBack">#6FAAEC</color>
+    <color name="timeBack">#507AA8</color>
+    <color name="redBack">#F7344C</color>
+    <color name="breathcolor2">#F1B559</color>
+    <color name="raund2">#4596F1</color>
+    <color name="raund1">#87BBF4</color>
+
+    <color name="treakBack">#1380F8</color>
+
+
 </resources>

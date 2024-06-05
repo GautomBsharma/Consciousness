@@ -44,7 +44,7 @@ class AddEventActivity : AppCompatActivity() {
 
     private fun validateevent() {
         if(binding.eventName.text.toString().isEmpty()){
-            binding.inquote.error = "Enter Event Name"
+            binding.eventName.error = "Enter Event Name"
         }
         else if (selectedItem.toString().isEmpty())
         {
@@ -68,6 +68,7 @@ class AddEventActivity : AppCompatActivity() {
         myMap["eDescription"] = binding.evDescription.text.toString()
         db.child(postId).setValue(myMap).addOnSuccessListener {
             Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show()
+
         }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()

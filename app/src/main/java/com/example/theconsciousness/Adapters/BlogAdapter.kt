@@ -1,6 +1,7 @@
 package com.example.theconsciousness.Adapters
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.theconsciousness.EditBlogActivity
 import com.example.theconsciousness.Models.Blog
 import com.example.theconsciousness.Models.User
 import com.example.theconsciousness.R
@@ -39,6 +41,48 @@ import de.hdodenhof.circleimageview.CircleImageView
         firebaseUser= FirebaseAuth.getInstance().currentUser
         val data = blogList[position]
         val blogId = data.blogId
+        val uid = firebaseUser?.uid
+
+        holder.blogAbout.setOnClickListener {
+            if(data.UserId == uid){
+                // Create a dialog
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Choose an option")
+
+                // Set up the options
+                val options = arrayOf("Edit", "Delete")
+                builder.setItems(options) { dialog, which ->
+                    when (which) {
+                        0 -> {
+                            // Edit option clicked
+                            val intent = Intent(context, EditBlogActivity::class.java)
+                            intent.putExtra("blogId", data.blogId) // Pass the blog ID to the Edit activity
+                            context.startActivity(intent)
+                        }
+                        1 -> {
+                            // Delete option clicked
+                            val blogId = data.blogId
+                            val databaseReference =
+                                blogId?.let { it1 ->
+                                    FirebaseDatabase.getInstance().getReference("Blogs").child(
+                                        it1
+                                    )
+                                }
+                            databaseReference?.removeValue()?.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(context, "Blog deleted successfully", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(context, "Failed to delete blog", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+                }
+                builder.show()
+
+            }
+        }
+
         holder.blog.text = data.blog
         holder.title.text = data.title
         if (data.refet?.isNotEmpty() == true){
@@ -190,5 +234,7 @@ import de.hdodenhof.circleimageview.CircleImageView
         val replay = itemView.findViewById<ImageView>(R.id.reply)
         val ref = itemView.findViewById<TextView>(R.id.refarence)
         val save = itemView.findViewById<ImageView>(R.id.saveBtn)
+        val blogAbout = itemView.findViewById<ImageView>(R.id.blogAbout)
+
     }
 }

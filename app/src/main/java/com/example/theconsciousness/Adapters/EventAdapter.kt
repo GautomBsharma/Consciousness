@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.theconsciousness.Models.Event
 import com.example.theconsciousness.R
 
-class EventAdapter(var context: Context,var eventList:ArrayList<Event>): RecyclerView.Adapter<EventAdapter.EventHolder>() {
 
-
+class EventAdapter(var context: Context, var eventList: ArrayList<Event>) : RecyclerView.Adapter<EventAdapter.EventHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.event_item,parent,false)
+        val view = LayoutInflater.from(context).inflate(R.layout.event_item, parent, false)
         return EventHolder(view)
     }
 
@@ -25,12 +24,29 @@ class EventAdapter(var context: Context,var eventList:ArrayList<Event>): Recycle
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
         val data = eventList[position]
         holder.evname.text = data.eName
-       holder.edescription.text = data.eDescription
+        holder.edescription.text = data.eDescription
     }
-    inner class EventHolder(itemView: View) :RecyclerView.ViewHolder(itemView){
-        val evname = itemView.findViewById<TextView>(R.id.tvEvent)
-        val edescription = itemView.findViewById<TextView>(R.id.evDescription)
 
-
+    inner class EventHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val evname: TextView = itemView.findViewById(R.id.tvEvent)
+        val edescription: TextView = itemView.findViewById(R.id.tvDescription)  // Correct ID
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

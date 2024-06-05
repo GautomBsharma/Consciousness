@@ -1,7 +1,10 @@
 package com.example.theconsciousness
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.AdapterView
@@ -22,6 +25,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var dialog: Dialog
     private var selectedItem :Any = ""
     private var fcmToken :String =""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
@@ -64,8 +68,15 @@ class SignUpActivity : AppCompatActivity() {
             binding.sinPassword.error = "Enter password"
         }
         else{
-            creatAcount()
-            dialog.show()
+            if (isNetworkAvailable(this)) {
+                // Internet is available, retrieve data
+                creatAcount()
+                dialog.show()
+            } else {
+                // No internet connection, show dialog
+                showNoInternetDialog()
+            }
+
         }
     }
     private fun creatAcount() {
@@ -75,8 +86,18 @@ class SignUpActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful)
                 {
+                    auth.currentUser?.sendEmailVerification()
+                        ?.addOnSuccessListener {
+                            Toast.makeText(this, "Please Verify Your Email", Toast.LENGTH_SHORT)
+                                .show()
+                            getToken()
+                        }
+                        ?.addOnFailureListener {
+                            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT)
+                                .show()
+                        }
 
-                    getToken()
+
                 } else
                 {
                     Toast.makeText(baseContext, "Authentication failed.",
@@ -86,6 +107,7 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
     private fun getToken() {
+
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 fcmToken = task.result
@@ -123,5 +145,28 @@ class SignUpActivity : AppCompatActivity() {
             ).show()
             dialog.dismiss()
         }
+    }
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        return capabilities != null &&
+                (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
+
+    private fun showNoInternetDialog() {
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("No Internet Connection")
+            .setIcon(R.drawable.round_signal_wifi_connected_no_internet_4_24)
+            .setMessage("Please check your internet connection and try again.")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(true)
+            .create()
+
+        dialog.show()
     }
 }

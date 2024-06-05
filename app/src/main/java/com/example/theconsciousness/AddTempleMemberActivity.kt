@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.theconsciousness.databinding.ActivityAddTempleMemberBinding
@@ -28,6 +29,7 @@ class AddTempleMemberActivity : AppCompatActivity() {
         if (it.resultCode == Activity.RESULT_OK){
             imageUri = it.data!!.data
             binding.postimage.setImageURI(imageUri)
+            binding.textView14.visibility = View.GONE
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +49,10 @@ class AddTempleMemberActivity : AppCompatActivity() {
 
         }
         binding.btnUp.setOnClickListener {
-            if ( imageUri.toString().isEmpty()) {
+            if (imageUri==null) {
+                binding.textView14.visibility = View.VISIBLE
                 Toast.makeText(this, "Please Upload member Image", Toast.LENGTH_SHORT).show()
             }
-
             else if (binding.memberName.text.toString().isEmpty()){
                 binding.memberName.error = "Enter Member Name"
             }
@@ -60,12 +62,11 @@ class AddTempleMemberActivity : AppCompatActivity() {
             else if (binding.membercontent.text.toString().isEmpty()){
                 binding.membercontent.error = "Enter contract info"
             }
-
             else{
-                    uploadImages(imageUri!!)
+                imageUri?.let { it1 -> uploadImages(it1) }
                     dialog.show()
                 }
-            
+
         }
     }
 

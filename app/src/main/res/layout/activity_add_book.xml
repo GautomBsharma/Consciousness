@@ -56,10 +56,11 @@
         android:id="@+id/blogLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
+
         android:hint="Enter blog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top"
+            android:minHeight="150dp"
             android:inputType="textMultiLine"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>

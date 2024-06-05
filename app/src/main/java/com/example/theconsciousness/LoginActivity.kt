@@ -1,7 +1,10 @@
 package com.example.theconsciousness
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -26,9 +29,21 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this,SignUpActivity::class.java))
         }
         binding.logBtn.setOnClickListener {
-            validatedata()
+            if (isNetworkAvailable(this)) {
+                // Internet is available, retrieve data
+                validatedata()
+            } else {
+                // No internet connection, show dialog
+                showNoInternetDialog()
+            }
+
+        }
+
+        binding.forget.setOnClickListener {
+            startActivity(Intent(this,ForgetActivity::class.java))
         }
     }
+
 
     private fun validatedata() {
         if (binding.logEmail.text.toString().isEmpty()){
@@ -53,9 +68,17 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    dialog.dismiss()
-                    startActivity(Intent(this,MainActivity::class.java))
-                    finish()
+                    val verification = auth.currentUser?.isEmailVerified
+                    if (verification==true){
+                        dialog.dismiss()
+                        startActivity(Intent(this,MainActivity::class.java))
+                        finish()
+                    }
+                    else{
+                        Toast.makeText(this, "Please Verify Your Email", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
                 } else {
 
                     dialog.dismiss()
@@ -65,11 +88,35 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-    public override fun onStart() {
+   public override fun onStart() {
         super.onStart()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-        }
+           val currentUser = auth.currentUser
+           if (currentUser != null) {
+               startActivity(Intent(this, MainActivity::class.java))
+           }
+
+    }
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        return capabilities != null &&
+                (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
+
+    private fun showNoInternetDialog() {
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("No Internet Connection")
+            .setIcon(R.drawable.round_signal_wifi_connected_no_internet_4_24)
+            .setMessage("Please check your internet connection and try again.")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(true)
+            .create()
+
+        dialog.show()
     }
 }

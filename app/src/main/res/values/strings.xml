@@ -13,6 +13,44 @@
         <item> Purnima</item>
         <item> Others</item>
     </string-array>
+    <string-array name="sloka_type">
+        <item> Vedas </item>
+        <item> Gitas</item>
+        <item> Others Sloka</item>
+
+    </string-array>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Hindi</item>
+        <item>Bengali</item>
+        <item>Nepali</item>
+        <item>Telugu</item>
+        <item>Tamil</item>
+        <item>Gujarati</item>
+        <item>Kannada</item>
+        <item>Malayalam</item>
+        <item>Odia</item>
+        <item>Marathi</item>
+        <item>Russian</item>
+        <item>Assamese</item>
+        <item>Sinhalese</item>
+        <item>Arabic</item>
+        <item>Assamese</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>Urdu</item>
+        <item>Punjabi</item>
+
+        <!-- Add more languages as needed -->
+    </string-array>
+
+    <string name="vadus_sonsk"> नासदासीन्नो सदासीत्तदानीं नासीद्रजो नो व्योमापरो यत्।किमा अवरीवः कुह कस्य शर्मन्नम्भः किमासीद्गहनं गभीरम्॥१॥</string>
+    <string name="vadus_english"> Then, neither the non-existent was nor the existent was at that time;There was no air, no sky beyond it.What was covering? Where was it? In whose protection?Was there water, unfathomable, profound?</string>
+    <string name="gita_sonsk">  यदा यदा हि धर्मस्य ग्लानिर्भवति भारत।अभ्युत्थानमधर्मस्य तदात्मानं सृजाम्यहम्॥४-७॥</string>
+    <string name="gita_english"> Whenever there is a decline in righteousness and an increase in unrighteousness, O Arjuna, at that time I manifest myself on earth.</string>
+    <string name="sloka_sonsk">  ॐ पूर्णमदः पूर्णमिदं पूर्णात्पूर्णमुदच्यते।पूर्णस्य पूर्णमादाय पूर्णमेवावशिष्यते॥ </string>
+    <string name="sloka_english"> Om. That is complete, this is complete. From the completeness comes the completeness.If completeness is taken away from completeness, only completeness remains.</string>
+
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>

@@ -41,8 +41,13 @@ class ReplyAdapter(var context: Context, var replyList: ArrayList<Replay>):Recyc
                 if(snapshot.exists())
                 {
                     val user = snapshot.getValue(User::class.java)
-                    Picasso.get().load(user!!.UserImageUrl).placeholder(R.drawable.profile).into(pubImage)
-                    userName!!.text =(user.UserName)
+                    if (user != null) {
+                        if (user.UserImageUrl.isNotEmpty()) {
+                            Picasso.get().load(user.UserImageUrl).placeholder(R.drawable.my_profile).into(pubImage)
+                        } else {
+                            pubImage?.setImageResource(R.drawable.my_profile)
+                        }
+                    }
                 }
             }
 

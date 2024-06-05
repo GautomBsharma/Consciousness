@@ -1,44 +1,41 @@
-package com.example.theconsciousness.Fragments
-
-
+package com.example.theconsciousness
 
 import android.content.Context
 import android.graphics.Color
-import android.os.*
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.theconsciousness.Models.DataPoint
-import com.example.theconsciousness.databinding.FragmentCounterBinding
-import com.github.mikephil.charting.data.*
+import com.example.theconsciousness.databinding.ActivityJapaMalaBinding
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
-
-class CounterFragment : Fragment() {
-    private lateinit var binding: FragmentCounterBinding
+class JapaMalaActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityJapaMalaBinding
     private var count:Int=0
     private var fullcount:Int=0
     private lateinit var auth : FirebaseAuth
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = FragmentCounterBinding.inflate(layoutInflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityJapaMalaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
         binding.countBtn.setOnClickListener {
             countfun()
             if (binding.switchBtn.isChecked){
-                vibrate(requireView())
+                vibrate()
             }
 
         }
@@ -46,23 +43,55 @@ class CounterFragment : Fragment() {
             cleardata()
         }
 
-       binding.saveCount.setOnClickListener {
-           saveCountData()
+        binding.saveCount.setOnClickListener {
+            if (isNetworkAvailable(this)) {
+                // Internet is available, retrieve data
+                saveCountData()
+            } else {
+                // No internet connection, show dialog
+                showNoInternetDialog()
+            }
+
         }
         retrivedata()
         binding.countBtnMinas.setOnClickListener {
-            count--
-            binding.tvCount.text = count.toString()
+            if (count>=1){
+                count--
+                binding.tvShowCount.text = count.toString()
+
+            }
 
         }
 
-        return binding.root
+    }
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        return capabilities != null &&
+                (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
     }
 
-    private fun vibrate(requireView: View) {
-        val vibrator = requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    private fun showNoInternetDialog() {
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("No Internet Connection")
+            .setIcon(R.drawable.round_signal_wifi_connected_no_internet_4_24)
+            .setMessage("Please check your internet connection and try again.")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(false)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun vibrate() {
+        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT>=26){
-            vibrator.vibrate(VibrationEffect.createOneShot(100L,VibrationEffect.DEFAULT_AMPLITUDE))
+            vibrator.vibrate(VibrationEffect.createOneShot(100L, VibrationEffect.DEFAULT_AMPLITUDE))
         }
         else{
             vibrator.vibrate(100L)
@@ -89,7 +118,7 @@ class CounterFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Database error: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@JapaMalaActivity, "Database error: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -124,15 +153,15 @@ class CounterFragment : Fragment() {
 
                     ref.push().setValue(barChartData)
                         .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "Count added", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@JapaMalaActivity, "Count added", Toast.LENGTH_SHORT).show()
                         }
                         .addOnFailureListener {
-                            Toast.makeText(requireContext(), "Failed to add count", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@JapaMalaActivity, "Failed to add count", Toast.LENGTH_SHORT).show()
                         }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), "Database error: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@JapaMalaActivity, "Database error: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         }
@@ -141,15 +170,15 @@ class CounterFragment : Fragment() {
 
     private fun cleardata() {
         count= 0
-        binding.tvCount.text = count.toString()
+        binding.tvShowCount.text = count.toString()
         fullcount= 0
-        binding.tvFull.text = fullcount.toString()
+        binding.tvTotal.text = "Total : $fullcount"
 
     }
 
     private fun countfun() {
         count++
-        binding.tvCount.text = count.toString()
+        binding.tvShowCount.text = count.toString()
         if (count==108){
             count = 0
             fullmal()
@@ -157,8 +186,7 @@ class CounterFragment : Fragment() {
     }
     private fun fullmal() {
         fullcount++
-        binding.tvFull.text = fullcount.toString()
+        binding.tvTotal.text = "Total : $fullcount"
 
     }
-
 }

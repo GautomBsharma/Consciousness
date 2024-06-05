@@ -23,7 +23,8 @@
             android:id="@+id/edNotice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:maxLines="6"
+            android:inputType="textMultiLine" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,6 +49,7 @@
         android:id="@+id/pickImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:visibility="gone"
         android:layout_marginStart="25dp"
         android:src="@drawable/baseline_image_24"
         app:layout_constraintStart_toStartOf="parent"

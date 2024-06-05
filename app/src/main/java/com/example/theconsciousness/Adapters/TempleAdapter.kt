@@ -34,11 +34,12 @@ class TempleAdapter(var context: Context,var templeList: ArrayList<Temple>) : Re
             Glide.with(context)
                 .load(datap.templeImageUrl)
                 .placeholder(R.drawable.templecon)
+                .centerCrop()
                 .into(holder.templeImg)
         } else {
             holder.templeImg.setImageResource(R.drawable.templecon)
         }
-        holder.goTemple.setOnClickListener {
+        holder.templeName.setOnClickListener {
             val intent = Intent(context,TempleRoomActivity::class.java)
             intent.putExtra("TEMPLE_ID",datap.templeId)
             intent.putExtra("TEMPLE_NAME",datap.templeName)

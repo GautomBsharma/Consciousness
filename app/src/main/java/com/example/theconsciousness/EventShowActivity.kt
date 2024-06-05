@@ -1,7 +1,10 @@
 package com.example.theconsciousness
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +34,39 @@ class EventShowActivity : AppCompatActivity() {
         adapter = EventAdapter(this,eventList)
         binding.recyclevent.adapter = adapter
         eventTitle = intent.getStringExtra("EVENT_TITLE").toString()
-        getEvent()
+
+        if (isNetworkAvailable(this)) {
+            // Internet is available, retrieve data
+            getEvent()
+        } else {
+            // No internet connection, show dialog
+            showNoInternetDialog()
+        }
+
+    }
+
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        return capabilities != null &&
+                (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
+
+    private fun showNoInternetDialog() {
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("No Internet Connection")
+            .setIcon(R.drawable.round_signal_wifi_connected_no_internet_4_24)
+            .setMessage("Please check your internet connection and try again.")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(false)
+            .create()
+
+        dialog.show()
     }
 
     private fun getEvent() {

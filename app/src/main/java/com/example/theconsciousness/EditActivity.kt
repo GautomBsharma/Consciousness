@@ -56,6 +56,8 @@ class EditActivity : AppCompatActivity() {
             validateData()
         }
 
+
+
     }
     private fun validateData() {
         if (binding.editName.text.toString().isEmpty()){

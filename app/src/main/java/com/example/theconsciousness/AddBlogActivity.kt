@@ -34,7 +34,7 @@ class AddBlogActivity : AppCompatActivity() {
         setContentView(binding.root)
         dialog = Dialog(this)
         dialog.setContentView(R.layout.progress_layout)
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         auth = FirebaseAuth.getInstance()
 
         binding.btnUp.setOnClickListener {

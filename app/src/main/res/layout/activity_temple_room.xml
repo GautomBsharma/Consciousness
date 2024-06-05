@@ -60,15 +60,14 @@
                 android:layout_height="0dp"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:text="TextView "
+                android:text="No Notice "
                 android:textColor="@color/black"
                 android:textSize="15sp"
+                android:maxLines="6"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -102,19 +101,34 @@
     <ImageView
 
         android:id="@+id/editNotice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/cardView15"
+
         app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:srcCompat="@drawable/outline_edit_24" />
+        android:src="@drawable/edit" />
+
+    <ImageView
+
+        android:id="@+id/deleteNotice"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/delete"
+        android:visibility="gone"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:text="Temple Members"
         android:textColor="@color/black"
@@ -125,13 +139,15 @@
 
     <ImageView
         android:id="@+id/editTempleMember"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="25dp"
+        android:layout_marginTop="-7dp"
         android:visibility="gone"
+        android:src="@drawable/edit"
+        app:layout_constraintBottom_toTopOf="@+id/memberRecycle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView15"
-        app:srcCompat="@drawable/outline_edit_24" />
+        app:layout_constraintTop_toTopOf="@+id/textView15" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/memberRecycle"

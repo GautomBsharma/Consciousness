@@ -1,14 +1,18 @@
 package com.example.theconsciousness.Adapters
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.theconsciousness.EditBlogActivity
 import com.example.theconsciousness.Models.PrayerPost
 import com.example.theconsciousness.Models.User
 import com.example.theconsciousness.R
@@ -41,13 +45,47 @@ class MyPostAdapter(private var context: Context,private var datalist:ArrayList<
             holder.prayerIm.visibility = View.VISIBLE
             Glide.with(context).load(data.prayerImageUrl).into(holder.prayerIm)
         }
+
+
         data.UserId?.let { userData(holder.userN,holder.profilepr,holder.pstatus, it) }
         data.postId?.let { isFlowered(it,holder.flowerbtn) }
         data.postId?.let { getCountofFlowered(it,holder.flowerCount) }
         data.postId?.let { isPrayered(it,holder.prayerbtn) }
         data.postId?.let { getCountofFrayred(it,holder.prayCoun) }
+        val uid = firebaseUser?.uid
+        holder.moreee.setOnClickListener {
+            if(data.UserId == uid){
+                // Create a dialog
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Choose an option")
 
+                // Set up the options
+                val options = arrayOf( "Delete")
+                builder.setItems(options) { dialog, which ->
+                    when (which) {
+                        0 -> {
+                            // Delete option clicked
+                            val blogId = data.postId
+                            val databaseReference =
+                                blogId?.let { it1 ->
+                                    FirebaseDatabase.getInstance().getReference("posts").child(
+                                        it1
+                                    )
+                                }
+                            databaseReference?.removeValue()?.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(context, "Post deleted successfully", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(context, "Failed to delete Post", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    }
+                }
+                builder.show()
 
+            }
+        }
 
         holder.flowerbtn.setOnClickListener{
             if (holder.flowerbtn.tag.toString()=="flower")

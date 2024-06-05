@@ -1,16 +1,15 @@
 package com.example.theconsciousness
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.theconsciousness.databinding.ActivityAddTempleBinding
-import com.example.theconsciousness.databinding.ActivityTempleBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -48,16 +47,14 @@ class AddTempleActivity : AppCompatActivity() {
 
         }
         binding.btnUp.setOnClickListener {
-            if (selectedItem.toString().isEmpty()) {
-                Toast.makeText(this, "Select Course must", Toast.LENGTH_SHORT).show()
-            } else {
+
                 if (imageUri == null || imageUri.toString().isEmpty()) {
                     storeData2()
                 } else {
                     uploadImages(imageUri!!)
                     dialog.show()
                 }
-            }
+
         }
     }
     private fun storeData2() {
@@ -67,7 +64,7 @@ class AddTempleActivity : AppCompatActivity() {
         updateMap["templeImageUrl"] = ""
         updateMap["templeId"] = postId.toString()
         updateMap["adminTemple"] = uid
-        updateMap["templeName"] = binding.templeName.text.toString()
+        updateMap["templeName"] = binding.templeName.text.toString().lowercase()
         updateMap["templeAddress"] = binding.templeAddress.text.toString()
 
         if (postId != null) {
@@ -109,12 +106,28 @@ class AddTempleActivity : AppCompatActivity() {
         if (postId != null) {
             dbRef.child(postId).setValue(updateMap).addOnSuccessListener {
                 Toast.makeText(this, "Temple added", Toast.LENGTH_SHORT).show()
-                dialog.dismiss()
-                finish()
+
+                setTempleAdmin(postId,uid)
+
             }.addOnFailureListener {
                 Toast.makeText(this, "Temple  Fail", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
         }
+    }
+
+    @SuppressLint("SuspiciousIndentation")
+    private fun setTempleAdmin(templeid: String, uid: String) {
+        val dbReff = FirebaseDatabase.getInstance().reference.child("TempleAdmin")
+            dbReff.child(templeid)
+            .child(uid).setValue(true)
+            .addOnSuccessListener {
+                dialog.dismiss()
+                finish()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Temple Admin added Fail", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
     }
 }
