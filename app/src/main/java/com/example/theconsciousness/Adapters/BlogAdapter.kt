@@ -7,9 +7,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.theconsciousness.EditBlogActivity
 import com.example.theconsciousness.Models.Blog
@@ -22,6 +20,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -130,7 +130,96 @@ import de.hdodenhof.circleimageview.CircleImageView
                     .removeValue()
             }
         }
+
+        holder.translateBlog.setOnClickListener {
+            showLanguageBlogSelectorDialog(holder.blog)
+        }
     }
+
+     private fun showLanguageBlogSelectorDialog(blogTextView: TextView) {
+         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_language_selector, null)
+         val spinnerLanguages = dialogView.findViewById<Spinner>(R.id.spinnerLanguages)
+
+         val adapter = ArrayAdapter.createFromResource(
+             context,
+             R.array.languages,
+             android.R.layout.simple_spinner_item
+         )
+         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+         spinnerLanguages.adapter = adapter
+
+         AlertDialog.Builder(context)
+             .setTitle("Select Language")
+             .setView(dialogView)
+             .setPositiveButton("OK") { dialog, which ->
+                 val selectedLanguage = spinnerLanguages.selectedItem.toString()
+                 translateTextBlog(selectedLanguage, blogTextView)
+             }
+             .setNegativeButton("Cancel", null)
+             .show()
+     }
+     private fun translateTextBlog(language: String, blogTextView: TextView) {
+         val sourceLanguage = "en" // Assume the source text is in English
+         val targetLanguage = getLanguageCode(language)
+
+         if (targetLanguage != null) {
+             val options = TranslatorOptions.Builder()
+                 .setSourceLanguage(sourceLanguage)
+                 .setTargetLanguage(targetLanguage)
+                 .build()
+             val translator = Translation.getClient(options)
+
+             translator.downloadModelIfNeeded()
+                 .addOnSuccessListener {
+                     translator.translate(blogTextView.text.toString())
+                         .addOnSuccessListener { translatedText ->
+                             blogTextView.text = translatedText
+                         }
+                         .addOnFailureListener { exception ->
+                             // Handle error
+                             blogTextView.text = "Translation failed: ${exception.message}"
+                         }
+                 }
+                 .addOnFailureListener { exception ->
+                     // Handle error
+                     blogTextView.text = "Model download failed: ${exception.message}"
+                 }
+         } else {
+             blogTextView.text = "Unsupported language"
+         }
+     }
+
+     private fun getLanguageCode(language: String): String? {
+         return when (language) {
+             "Spanish" -> "es"
+             "French" -> "fr"
+             "Hindi" -> "hi"
+             "English" -> "en"
+             "Bengali" -> "bn"
+             "Telugu" -> "te"
+             "Marathi" -> "mr"
+             "Tamil" -> "ta"
+             "Gujarati" -> "gu"
+             "Urdu" -> "ur"
+             "Kannada" -> "kn"
+             "Malayalam" -> "ml"
+             "Odia" -> "or"
+             "Punjabi" -> "pa"
+             "Assamese" -> "as"
+             "Maithili" -> "mai"
+             "Santali" -> "sat"
+             "Konkani" -> "kok"
+             "Russian" -> "ru"
+             "Arabic" -> "ar"
+             "Sinhalese" -> "si"
+             "Nepali" -> "ne"
+             "Dzongkha" -> "dz"
+             "Burmese" -> "my"
+             // Add other languages and their codes as needed
+             else -> null
+         }
+     }
+
 
     private fun isSaved(blogId: String?, save: ImageView?) {
         firebaseUser=FirebaseAuth.getInstance().currentUser
@@ -235,6 +324,6 @@ import de.hdodenhof.circleimageview.CircleImageView
         val ref = itemView.findViewById<TextView>(R.id.refarence)
         val save = itemView.findViewById<ImageView>(R.id.saveBtn)
         val blogAbout = itemView.findViewById<ImageView>(R.id.blogAbout)
-
+        val translateBlog = itemView.findViewById<ImageView>(R.id.translateBlog)
     }
 }

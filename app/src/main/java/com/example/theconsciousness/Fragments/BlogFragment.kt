@@ -77,7 +77,6 @@ class BlogFragment : Fragment() {
 
         return binding.root
     }
-
     private fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
